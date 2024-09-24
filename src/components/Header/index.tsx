@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CircleIcon, Home, LogOut } from "lucide-react";
+import { MetaMaskProvider } from "@metamask/sdk-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ConnectWalletButton from "@/components/ConnectWalletButton";
 
 const Header = () => {
   const router = useRouter();
@@ -20,6 +22,17 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [user, setUser] = useState({ name: "scofioled", email: "scofield@gmail.com" });
+
+  const host = typeof window !== "undefined" ? window.location.host : "defaultHost";
+
+  const sdkOptions = {
+    logging: { developerMode: false },
+    checkInstallationImmediately: false,
+    dappMetadata: {
+      name: "Next-Metamask-Boilerplate",
+      url: host, // using the host constant defined above
+    },
+  };
 
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
@@ -50,9 +63,11 @@ const Header = () => {
           <span className="ml-2 text-xl font-semibold text-gray-900">ART NFT</span>
         </Link>
         <div className="flex items-center space-x-4">
-          <Link href="/test" className="text-sm font-medium text-gray-700 hover:text-gray-900">
-            Connect Wallet
-          </Link>
+          <div className="flex gap-4 px-6">
+            <MetaMaskProvider debug={false} sdkOptions={sdkOptions}>
+              <ConnectWalletButton />
+            </MetaMaskProvider>
+          </div>
           {user ? (
             <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DropdownMenuTrigger asChild>
