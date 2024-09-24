@@ -28,7 +28,7 @@ export default function Uploader() {
   );
 }
 
-function FileIcon(props) {
+function FileIcon(props: any) {
   return (
     <svg
       {...props}
