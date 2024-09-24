@@ -63,6 +63,13 @@ const Header = () => {
           <span className="ml-2 text-xl font-semibold text-gray-900">ART NFT</span>
         </Link>
         <div className="flex items-center space-x-4">
+          <Link href="/" className="flex items-center">
+            <span className="ml-2 text-xl font-semibold text-gray-900">交易市场</span>
+          </Link>
+          <Link href="/" className="flex items-center">
+            <span className="ml-2 text-xl font-semibold text-gray-900">个人中心</span>
+          </Link>
+
           <div className="flex gap-4 px-6">
             <MetaMaskProvider debug={false} sdkOptions={sdkOptions}>
               <ConnectWalletButton />

@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone } from "react-dropzone";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ImagePlus } from "lucide-react";
 // import { toast } from "sonner";
 
-const ImageUploader: React.FC = () => {
+const ArtGenerator: React.FC = () => {
   const [preview, setPreview] = React.useState<string | ArrayBuffer | null>("");
 
   const formSchema = z.object({
@@ -19,6 +19,7 @@ const ImageUploader: React.FC = () => {
       //Rest of validations done via react dropzone
       .instanceof(File)
       .refine((file) => file.size !== 0, "Please upload an image"),
+    prompt: z.string(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -97,6 +98,20 @@ const ImageUploader: React.FC = () => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="prompt"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Prompt</FormLabel>
+              <FormControl>
+                <Input placeholder="please write the prompt" {...field} />
+              </FormControl>
+              <FormDescription>This is your public display name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           disabled={form.formState.isSubmitting}
@@ -109,4 +124,4 @@ const ImageUploader: React.FC = () => {
   );
 };
 
-export default ImageUploader;
+export default ArtGenerator;
