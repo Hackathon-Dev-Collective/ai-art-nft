@@ -19,7 +19,7 @@ const Header = () => {
   const [sticky, setSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState({ name: "scofioled", email: "scofield@gmail.com" });
 
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
@@ -29,6 +29,8 @@ const Header = () => {
     }
   };
   async function handleSignOut() {
+    // test
+    setUser({ name: "", email: "" });
     router.push("/");
   }
   useEffect(() => {
