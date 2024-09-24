@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone } from "react-dropzone";
@@ -82,7 +83,9 @@ const ImageUploader: React.FC = () => {
                   {...getRootProps()}
                   className="mx-auto flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-lg border border-foreground p-8 shadow-sm shadow-foreground"
                 >
-                  {preview && <img src={preview as string} alt="Uploaded image" className="max-h-[400px] rounded-lg" />}
+                  {preview && (
+                    <Image src={preview as string} alt="Uploaded image" className="max-h-[400px] rounded-lg" />
+                  )}
                   <ImagePlus className={`size-40 ${preview ? "hidden" : "block"}`} />
                   <Input {...getInputProps()} type="file" />
                   {isDragActive ? <p>Drop the image!</p> : <p>Click here or drag an image to upload it</p>}
