@@ -1,49 +1,109 @@
 "use client";
-
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useDropzone } from "react-dropzone";
+import { z } from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ImagePlus } from "lucide-react";
+// import { toast } from "sonner";
 
-export default function Uploader() {
-  return (
-    <Card>
-      <CardContent className="p-6 space-y-4">
-        <div className="border-2 border-dashed border-gray-200 rounded-lg flex flex-col gap-1 p-6 items-center">
-          <FileIcon className="w-12 h-12" />
-          <span className="text-sm font-medium text-gray-500">Drag and drop a file or click to browse</span>
-          <span className="text-xs text-gray-500">PDF, image, video, or audio</span>
-        </div>
-        <div className="space-y-2 text-sm">
-          <Label htmlFor="file" className="text-sm font-medium">
-            File
-          </Label>
-          <Input id="file" type="file" placeholder="File" accept="image/*" />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button size="lg">Upload</Button>
-      </CardFooter>
-    </Card>
-  );
-}
+const ImageUploader: React.FC = () => {
+  const [preview, setPreview] = React.useState<string | ArrayBuffer | null>("");
 
-function FileIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-    </svg>
+  const formSchema = z.object({
+    image: z
+      //Rest of validations done via react dropzone
+      .instanceof(File)
+      .refine((file) => file.size !== 0, "Please upload an image"),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    mode: "onBlur",
+    defaultValues: {
+      image: new File([""], "filename"),
+    },
+  });
+
+  const onDrop = React.useCallback(
+    (acceptedFiles: File[]) => {
+      const reader = new FileReader();
+      try {
+        reader.onload = () => setPreview(reader.result);
+        reader.readAsDataURL(acceptedFiles[0]);
+        form.setValue("image", acceptedFiles[0]);
+        form.clearErrors("image");
+      } catch (error) {
+        console.log({ error });
+        setPreview(null);
+        form.resetField("image");
+      }
+    },
+    [form]
   );
-}
+
+  const { getRootProps, getInputProps, isDragActive, fileRejections } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+    maxSize: 1000000,
+    accept: { "image/png": [], "image/jpg": [], "image/jpeg": [] },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+    // toast.success(`Image uploaded successfully 🎉 ${values.image.name}`);
+  };
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="image"
+          render={() => (
+            <FormItem className="mx-auto md:w-1/2">
+              <FormLabel className={`${fileRejections.length !== 0 && "text-destructive"}`}>
+                <h2 className="text-xl font-semibold tracking-tight">
+                  Upload your image
+                  <span
+                    className={
+                      form.formState.errors.image || fileRejections.length !== 0
+                        ? "text-destructive"
+                        : "text-muted-foreground"
+                    }
+                  ></span>
+                </h2>
+              </FormLabel>
+              <FormControl>
+                <div
+                  {...getRootProps()}
+                  className="mx-auto flex cursor-pointer flex-col items-center justify-center gap-y-2 rounded-lg border border-foreground p-8 shadow-sm shadow-foreground"
+                >
+                  {preview && <img src={preview as string} alt="Uploaded image" className="max-h-[400px] rounded-lg" />}
+                  <ImagePlus className={`size-40 ${preview ? "hidden" : "block"}`} />
+                  <Input {...getInputProps()} type="file" />
+                  {isDragActive ? <p>Drop the image!</p> : <p>Click here or drag an image to upload it</p>}
+                </div>
+              </FormControl>
+              <FormMessage>
+                {fileRejections.length !== 0 && <p>Image must be less than 1MB and of type png, jpg, or jpeg</p>}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className="mx-auto block h-auto rounded-lg px-8 py-3 text-xl"
+        >
+          Submit
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default ImageUploader;
