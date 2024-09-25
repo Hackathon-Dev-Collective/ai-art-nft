@@ -36,7 +36,7 @@ const ConnectWalletButton = () => {
 
   return (
     <div className="relative">
-      <Button onClick={connect}>Connect</Button>
+      <Button onClick={connect}>Connect Wallet</Button>
       {/* {connected ? (
         <Popover>
           <PopoverTrigger asChild>

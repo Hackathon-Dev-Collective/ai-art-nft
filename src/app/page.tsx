@@ -206,7 +206,6 @@ export default function Home() {
         {upcomming.map((image) => (
           <Card key={image.id} className="overflow-hidden shadow-md scale-hover">
             <CardContent className="p-0 relative overflow-hidden">
-              {/* hover:scale-125 */}
               <Image
                 width={800}
                 height={800}
