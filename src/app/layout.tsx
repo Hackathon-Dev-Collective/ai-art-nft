@@ -18,7 +18,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   icons: { icon: "/favicon.ico" },
-  title: "ArtifAI",
+  title: "NeuroArt",
   description: "Generate Art NFT",
 };
 
