@@ -162,11 +162,47 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <h3 className="text-3xl font-bold mb-4">Providing Value with Endless Features</h3>
+      <section className="mb-12 p-10 bg-gradient-to-r from-slate-50 to-slate-200 rounded">
+        <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container ">
+          <div className="bg-gray-100 p-6 p-6 rounded-lg  shadow-md">
+            <h3 className="text-2xl font-bold mb-4">AI-Powered Creation</h3>
+            <p className="text-gray-400">
+              Harness cutting-edge AI technology to effortlessly generate unique digital artworks. No artistic skills
+              required.
+            </p>
+          </div>
+          <div className="bg-gray-100 p-6 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-bold mb-4">Auto NFT Minting</h3>
+            <p className="text-gray-400">
+              Transform your AI-generated art into NFTs with ease. Simplified minting process lets you focus on
+              creation.
+            </p>
+          </div>
+          <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-bold mb-4">NFT Marketplace</h3>
+            <p className="text-gray-400">
+              Showcase and trade your creations in our NFT marketplace. Connect with global collectors and realize the
+              value of your art.
+            </p>
+          </div>
+        </section>
+        <section className="px-4 flex flex-col justify-center items-center text-center mb-12">
+          <h3 className="text-3xl font-bold mb-4">Ready to Start Your AI NFT Journey?</h3>
+          <p className="text-xl mb-8">Sign up now and experience the future of AI-driven NFT creation!</p>
+          <Link href="/generate" className="flex items-center">
+            <Button size="lg" className="text-white">
+              Get Started for Free
+            </Button>
+          </Link>
+        </section>
+      </section>
+
       {/* upcoming */}
       <h3 className="text-3xl font-bold mb-4">Upcoming Releases</h3>
       <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container">
         {upcomming.map((image) => (
-          <Card key={image.id} className="overflow-hidden">
+          <Card key={image.id} className="overflow-hidden shadow-md">
             <CardContent className="p-0 relative">
               <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
             </CardContent>
@@ -191,7 +227,7 @@ export default function Home() {
       <h3 className="text-3xl font-bold mb-4">Recent Releases</h3>
       <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container">
         {images.map((image) => (
-          <Card key={image.id} className="overflow-hidden">
+          <Card key={image.id} className="overflow-hidden shadow-md">
             <CardContent className="p-0 relative">
               <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
             </CardContent>
@@ -239,7 +275,7 @@ export default function Home() {
         ))}
       </section> */}
       {/* from-violet-500 to-fuchsia-500 */}
-      <h3 className="text-3xl font-bold mb-4">Providing Value with Endless Features</h3>
+      {/* <h3 className="text-3xl font-bold mb-4">Providing Value with Endless Features</h3>
       <section className="p-10 bg-gradient-to-r from-slate-50 to-slate-200 rounded">
         <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container ">
           <div className="bg-gray-100 p-6 p-6 rounded-lg">
@@ -273,7 +309,7 @@ export default function Home() {
             </Button>
           </Link>
         </section>
-      </section>
+      </section> */}
     </main>
   );
   // return (
