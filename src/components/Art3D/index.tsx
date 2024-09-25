@@ -13,7 +13,7 @@ const positions = [...Array(800)].map(() => ({
 export default function Art3D() {
   return (
     <Suspense fallback={<span>loading...</span>}>
-      <div className="w-full h-[500px]">
+      <div className="w-full h-[700px]">
         <Canvas
           // Quick shortcut for setting up shadow maps
           shadows
@@ -39,6 +39,10 @@ export default function Art3D() {
 function Bust(props: any) {
   // This will load 4 GLTF in parallel using React Suspense
   const levels = useGLTF(["/bust-1-d.glb", "/bust-2-d.glb", "/bust-3-d.glb", "/bust-4-d.glb"]);
+  levels.map(({ nodes, materials }, index) => {
+    console.log({ nodes, materials, index });
+  });
+
   // By the time we're here these GLTFs exist, they're loaded
   // There are 800 instances of this component, but the GLTF data is cached and will be re-used ootb
   return (
@@ -50,7 +54,7 @@ function Bust(props: any) {
           receiveShadow
           castShadow
           key={index}
-          geometry={nodes.Mesh_0001.geometry}
+          geometry={nodes.Mesh_0001?.geometry}
           material={materials.default}
           material-envMapIntensity={0.25}
         />
