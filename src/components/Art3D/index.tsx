@@ -13,7 +13,7 @@ const positions = [...Array(800)].map(() => ({
 export default function Art3D() {
   return (
     <Suspense fallback={<span>loading...</span>}>
-      <div className="w-full h-[700px]">
+      <div className="w-full h-[700px] z-10 absolute top-0 left-0">
         <Canvas
           // Quick shortcut for setting up shadow maps
           shadows
