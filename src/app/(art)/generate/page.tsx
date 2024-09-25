@@ -47,7 +47,7 @@ export default function AIImageGeneration() {
   return (
     <div className="min-h-screen bg-gray-100 p-8 pb-20 sm:p-20 flex flex-col justify-center items-center">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">AI Image Generation</h1>
+        <h1 className="text-gray-900 text-4xl font-bold text-center mb-8">AI Image Generation</h1>
 
         <Card className="mb-8">
           <CardHeader>
