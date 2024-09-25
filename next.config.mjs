@@ -15,6 +15,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   transpilePackages: ["three"],
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: "https",
+  //       hostname: "unsplash.com",
+  //       port: "",
+  //       pathname: "/photos/**",
+  //     },
+  //   ],
+  // },
 };
 
 export default nextConfig;

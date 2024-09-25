@@ -67,6 +67,9 @@ const Header = () => {
           <Link href="/generate" className="flex items-center">
             <span className="ml-2 text-xl font-semibold text-gray-900">AI Generate</span>
           </Link>
+          <Link href="/vote" className="flex items-center">
+            <span className="ml-2 text-xl font-semibold text-gray-900">Arts</span>
+          </Link>
           <Link href="/market" className="flex items-center">
             <span className="ml-2 text-xl font-semibold text-gray-900">Market</span>
           </Link>
