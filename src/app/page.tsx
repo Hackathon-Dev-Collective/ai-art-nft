@@ -1,4 +1,4 @@
-import ArtGenerator from "@/components/ArtGenerator";
+// import ArtGenerator from "@/components/ArtGenerator";
 // import Water from "@/components/Three3D";
 import Art3D from "@/components/Art3D";
 
@@ -12,7 +12,7 @@ export default function Home() {
           <Art3D />
         </div>
         {/* <Water /> */}
-        <ArtGenerator />
+        {/* <ArtGenerator /> */}
       </main>
     </div>
   );

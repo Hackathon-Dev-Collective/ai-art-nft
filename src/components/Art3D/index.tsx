@@ -39,10 +39,6 @@ export default function Art3D() {
 function Bust(props: any) {
   // This will load 4 GLTF in parallel using React Suspense
   const levels = useGLTF(["/bust-1-d.glb", "/bust-2-d.glb", "/bust-3-d.glb", "/bust-4-d.glb"]);
-  levels.map(({ nodes, materials }, index) => {
-    console.log({ nodes, materials, index });
-  });
-
   // By the time we're here these GLTFs exist, they're loaded
   // There are 800 instances of this component, but the GLTF data is cached and will be re-used ootb
   return (

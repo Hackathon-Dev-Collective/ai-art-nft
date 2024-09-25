@@ -61,17 +61,17 @@ const Header = () => {
       <div className=" mx-auto px-4 w-full py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center">
           <CircleIcon className="h-6 w-6 text-orange-500" />
-          <span className="ml-2 text-xl font-semibold text-gray-900">ART NFT</span>
+          <span className="ml-2 text-xl font-semibold text-gray-900">NeuroArt</span>
         </Link>
         <div className="flex items-center space-x-4">
           <Link href="/generate" className="flex items-center">
             <span className="ml-2 text-xl font-semibold text-gray-900">AI Generate</span>
           </Link>
           <Link href="/market" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">交易市场</span>
+            <span className="ml-2 text-xl font-semibold text-gray-900">Market</span>
           </Link>
           <Link href="/user" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">个人中心</span>
+            <span className="ml-2 text-xl font-semibold text-gray-900">User</span>
           </Link>
 
           <div className="flex gap-4 px-6">
@@ -93,12 +93,12 @@ const Header = () => {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="p-0">
-                <DropdownMenuItem className="w-full cursor-pointer m-1">
+                {/* <DropdownMenuItem className="w-full cursor-pointer m-1">
                   <Link href="/dashboard" className="flex w-full items-center">
                     <Home className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <form action={handleSignOut} className="p-1">
                   <button type="submit" className="flex w-full">
                     <DropdownMenuItem className="w-full cursor-pointer">
