@@ -88,10 +88,62 @@ const upcommingImages = [
     isFavorite: false,
   },
 ];
+const valuerinkImages = [
+  {
+    id: 1,
+    src: "/images/demo-06.jpg",
+    alt: "Abstract Art 1",
+    title: "Neon Dreams",
+    author: {
+      name: "Alice Johnson",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 1024,
+    isFavorite: false,
+  },
+  {
+    id: 2,
+    src: "/images/demo-06.jpg",
+    alt: "Abstract Art 2",
+    title: "Cosmic Waves",
+    author: {
+      name: "Bob Smith",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 896,
+    isFavorite: true,
+  },
+  {
+    id: 3,
+    src: "/images/demo-06.jpg",
+    alt: "Abstract Art 3",
+    title: "Digital Bloom",
+    author: {
+      name: "Carol Davis",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 1536,
+    isFavorite: false,
+  },
+  {
+    id: 4,
+    src: "/images/demo-06.jpg",
+    alt: "Abstract Art 3",
+    title: "Digital Bloom",
+    author: {
+      name: "Carol Davis",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 1536,
+    isFavorite: false,
+  },
+];
 
 export default function Home() {
   const [images, setImages] = useState(initialImages);
   const [upcomming, setUpcomming] = useState(upcommingImages);
+  const [valueImages, setValueImages] = useState(valuerinkImages);
+
   return (
     <main className="w-full    sm:pt-20 flex flex-col justify-center items-center">
       <div className="w-full h-[60vh] min-h-[700px] mb-12 relative flex flex-col justify-center items-center">
@@ -161,37 +213,66 @@ export default function Home() {
         ))}
       </section>
 
+      {/* Value ranking */}
+      {/* <h3 className="text-3xl font-bold mb-4">Value Ranking</h3>
       <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container">
-        <div className="bg-gray-100 p-6 p-6 rounded-lg">
-          <h3 className="text-2xl font-bold mb-4">AI-Powered Creation</h3>
-          <p className="text-gray-400">
-            Harness cutting-edge AI technology to effortlessly generate unique digital artworks. No artistic skills
-            required.
-          </p>
-        </div>
-        <div className="bg-gray-100 p-6 p-6 rounded-lg">
-          <h3 className="text-2xl font-bold mb-4">Auto NFT Minting</h3>
-          <p className="text-gray-400">
-            Transform your AI-generated art into NFTs with ease. Simplified minting process lets you focus on creation.
-          </p>
-        </div>
-        <div className="bg-gray-100 p-6 rounded-lg">
-          <h3 className="text-2xl font-bold mb-4">NFT Marketplace</h3>
-          <p className="text-gray-400">
-            Showcase and trade your creations in our NFT marketplace. Connect with global collectors and realize the
-            value of your art.
-          </p>
-        </div>
-      </section>
-
-      <section className="px-4 flex flex-col justify-center items-center text-center mb-12">
-        <h3 className="text-3xl font-bold mb-4">Ready to Start Your AI NFT Journey?</h3>
-        <p className="text-xl mb-8">Sign up now and experience the future of AI-driven NFT creation!</p>
-        <Link href="/generate" className="flex items-center">
-          <Button size="lg" className="text-white">
-            Get Started for Free
-          </Button>
-        </Link>
+        {valueImages.map((image) => (
+          <Card key={image.id} className="overflow-hidden">
+            <CardContent className="p-0 relative">
+              <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
+            </CardContent>
+            <CardFooter className="flex flex-col items-start p-4">
+              <div className="flex items-center justify-between w-full mb-2">
+                <h2 className="text-xl font-semibold">{image.title}</h2>
+              </div>
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center space-x-2">
+                  <Avatar>
+                    <AvatarImage src={image.author.avatar} alt={image.author.name} />
+                    <AvatarFallback>{image.author.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <span className="text-sm font-medium">{image.author.name}</span>
+                </div>
+              </div>
+            </CardFooter>
+          </Card>
+        ))}
+      </section> */}
+      {/* from-violet-500 to-fuchsia-500 */}
+      <h3 className="text-3xl font-bold mb-4">Providing Value with Endless Features</h3>
+      <section className="p-10 bg-gradient-to-r from-slate-50 to-slate-200 rounded">
+        <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container ">
+          <div className="bg-gray-100 p-6 p-6 rounded-lg">
+            <h3 className="text-2xl font-bold mb-4">AI-Powered Creation</h3>
+            <p className="text-gray-400">
+              Harness cutting-edge AI technology to effortlessly generate unique digital artworks. No artistic skills
+              required.
+            </p>
+          </div>
+          <div className="bg-gray-100 p-6 p-6 rounded-lg">
+            <h3 className="text-2xl font-bold mb-4">Auto NFT Minting</h3>
+            <p className="text-gray-400">
+              Transform your AI-generated art into NFTs with ease. Simplified minting process lets you focus on
+              creation.
+            </p>
+          </div>
+          <div className="bg-gray-100 p-6 rounded-lg">
+            <h3 className="text-2xl font-bold mb-4">NFT Marketplace</h3>
+            <p className="text-gray-400">
+              Showcase and trade your creations in our NFT marketplace. Connect with global collectors and realize the
+              value of your art.
+            </p>
+          </div>
+        </section>
+        <section className="px-4 flex flex-col justify-center items-center text-center mb-12">
+          <h3 className="text-3xl font-bold mb-4">Ready to Start Your AI NFT Journey?</h3>
+          <p className="text-xl mb-8">Sign up now and experience the future of AI-driven NFT creation!</p>
+          <Link href="/generate" className="flex items-center">
+            <Button size="lg" className="text-white">
+              Get Started for Free
+            </Button>
+          </Link>
+        </section>
       </section>
     </main>
   );
