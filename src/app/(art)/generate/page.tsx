@@ -46,10 +46,10 @@ export default function AIImageGeneration() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 pb-20 sm:p-20 flex flex-col justify-center items-center">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto mt-10">
         <h1 className="text-gray-900 text-4xl font-bold text-center mb-8">AI Image Generation</h1>
 
-        <Card className="mb-8">
+        <Card className="mb-8 shadow-md">
           <CardHeader>
             <CardTitle>Generate Your Image</CardTitle>
             <CardDescription>Enter a detailed description of the image you want to create</CardDescription>
@@ -80,10 +80,10 @@ export default function AIImageGeneration() {
           </CardContent>
         </Card>
 
-        <h2 className="text-2xl font-semibold mb-4">Generated Images</h2>
+        <h2 className="text-gray-800 text-2xl font-semibold mb-4">Generated Images</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {generatedImages.map((img) => (
-            <Card key={img.id}>
+            <Card key={img.id} className="shadow-md">
               <CardContent className="p-4">
                 <Image
                   width={800}
@@ -108,7 +108,7 @@ export default function AIImageGeneration() {
           ))}
         </div>
 
-        <Card className="mt-12">
+        <Card className="mt-12 shadow-md">
           <CardHeader>
             <CardTitle>How It Works</CardTitle>
           </CardHeader>

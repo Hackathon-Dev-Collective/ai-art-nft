@@ -90,3 +90,6 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.scale-hover:hover img {
+  transform: scale(1.1);
+}

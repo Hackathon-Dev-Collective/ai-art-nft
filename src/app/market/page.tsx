@@ -166,16 +166,16 @@ export default function NFTMarket() {
             </DropdownMenu>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredNFTs.map((nft) => (
-              <Card key={nft.id} className="overflow-hidden">
-                <CardContent className="p-0">
+              <Card key={nft.id} className="overflow-hidden scale-hover">
+                <CardContent className="p-0 overflow-hidden">
                   <Image
                     width={800}
                     height={800}
                     src={nft.image}
                     alt={nft.title}
-                    className="w-full h-64 object-cover"
+                    className="w-full h-64 object-cover transform transition-all"
                   />
                 </CardContent>
                 <CardFooter className="flex flex-col items-start p-4">

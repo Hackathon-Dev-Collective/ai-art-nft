@@ -25,9 +25,12 @@ const user = {
 // Sample NFT data
 const nfts = [
   { id: 1, title: "Cosmic Dreamscape", image: "/images/demo-03.jpg", price: 0.5 },
-  { id: 2, title: "Neon Cityscape", image: "/images/demo-03.jpg", price: 0.75 },
-  { id: 3, title: "Digital Flora", image: "/images/demo-03.jpg", price: 0.3 },
-  { id: 4, title: "Quantum Fragments", image: "/images/demo-03.jpg", price: 1.2 },
+  { id: 2, title: "Neon Cityscape", image: "/images/demo-04.jpg", price: 0.75 },
+  { id: 3, title: "Digital Flora", image: "/images/demo-10.jpg", price: 0.3 },
+  { id: 4, title: "Quantum Fragments", image: "/images/demo-06.jpg", price: 1.2 },
+  { id: 5, title: "Quantum Fragments", image: "/images/demo-07.jpg", price: 1.2 },
+  { id: 6, title: "Quantum Fragments", image: "/images/demo-08.jpg", price: 1.2 },
+  { id: 7, title: "Quantum Fragments", image: "/images/demo-09.jpg", price: 1.2 },
 ];
 
 // Sample artwork data
@@ -45,7 +48,7 @@ export default function UserDashboard() {
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <Card className="md:col-span-2">
+          <Card className="md:col-span-2 shadow-md scale-hover">
             <CardHeader>
               <div className="flex items-center space-x-4">
                 <Avatar className="h-20 w-20">
@@ -70,7 +73,7 @@ export default function UserDashboard() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="shadow-md">
             <CardHeader>
               <CardTitle>Wallet Balance</CardTitle>
             </CardHeader>
@@ -91,14 +94,14 @@ export default function UserDashboard() {
           <TabsContent value="nfts">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
               {nfts.map((nft) => (
-                <Card key={nft.id}>
-                  <CardContent className="p-0">
+                <Card key={nft.id} className="shadow-md scale-hover">
+                  <CardContent className="p-0 overflow-hidden">
                     <Image
                       width={800}
                       height={800}
                       src={nft.image}
                       alt={nft.title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover transform transition-all"
                     />
                   </CardContent>
                   <CardFooter className="flex justify-between items-center">
@@ -118,14 +121,14 @@ export default function UserDashboard() {
           <TabsContent value="artworks">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
               {artworks.map((artwork) => (
-                <Card key={artwork.id}>
-                  <CardContent className="p-0">
+                <Card key={artwork.id} className="shadow-md scale-hover">
+                  <CardContent className="p-0 overflow-hidden">
                     <Image
                       width={800}
                       height={800}
                       src={artwork.image}
                       alt={artwork.title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover transform transition-all"
                     />
                   </CardContent>
                   <CardFooter className="flex justify-between items-center">
@@ -145,7 +148,7 @@ export default function UserDashboard() {
         </Tabs>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <Card>
+          <Card className="shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Earnings</CardTitle>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -155,7 +158,7 @@ export default function UserDashboard() {
               <p className="text-xs text-muted-foreground">+20.1% from last month</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Artwork Views</CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
@@ -165,7 +168,7 @@ export default function UserDashboard() {
               <p className="text-xs text-muted-foreground">+180.1% from last month</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total NFTs Sold</CardTitle>
               <Box className="h-4 w-4 text-muted-foreground" />

@@ -26,7 +26,7 @@ const initialImages = [
   },
   {
     id: 2,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-09.jpg",
     alt: "Abstract Art 2",
     title: "Cosmic Waves",
     author: {
@@ -38,7 +38,7 @@ const initialImages = [
   },
   {
     id: 3,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-10.jpg",
     alt: "Abstract Art 3",
     title: "Digital Bloom",
     author: {
@@ -65,7 +65,7 @@ const upcommingImages = [
   },
   {
     id: 2,
-    src: "/images/demo-05.jpg",
+    src: "/images/demo-07.jpg",
     alt: "Abstract Art 2",
     title: "Cosmic Waves",
     author: {
@@ -77,7 +77,7 @@ const upcommingImages = [
   },
   {
     id: 3,
-    src: "/images/demo-05.jpg",
+    src: "/images/demo-08.jpg",
     alt: "Abstract Art 3",
     title: "Digital Bloom",
     author: {
@@ -204,9 +204,16 @@ export default function Home() {
       <h3 className="text-gray-900 text-3xl font-bold mb-4">Upcoming Releases</h3>
       <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container">
         {upcomming.map((image) => (
-          <Card key={image.id} className="overflow-hidden shadow-md">
-            <CardContent className="p-0 relative">
-              <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
+          <Card key={image.id} className="overflow-hidden shadow-md scale-hover">
+            <CardContent className="p-0 relative overflow-hidden">
+              {/* hover:scale-125 */}
+              <Image
+                width={800}
+                height={800}
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-64 object-cover  transform transition-all"
+              />
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4">
               <div className="flex items-center justify-between w-full mb-2">
@@ -229,9 +236,15 @@ export default function Home() {
       <h3 className="text-gray-900 text-3xl font-bold mb-4">Recent Releases</h3>
       <section className="px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 container">
         {images.map((image) => (
-          <Card key={image.id} className="overflow-hidden shadow-md">
-            <CardContent className="p-0 relative">
-              <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
+          <Card key={image.id} className="overflow-hidden shadow-md scale-hover">
+            <CardContent className="p-0 relative overflow-hidden ">
+              <Image
+                width={800}
+                height={800}
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-64 object-cover transform transition-all"
+              />
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4">
               <div className="flex items-center justify-between w-full mb-2">

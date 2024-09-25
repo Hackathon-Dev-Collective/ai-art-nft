@@ -81,12 +81,18 @@ export default function ImageCardList() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Discover AI-Generated Art</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-8 mt-10">Discover AI-Generated Art</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {images.map((image) => (
-          <Card key={image.id} className="overflow-hidden">
-            <CardContent className="p-0 relative">
-              <Image width={800} height={800} src={image.src} alt={image.alt} className="w-full h-64 object-cover" />
+          <Card key={image.id} className="overflow-hidden scale-hover shadow-md">
+            <CardContent className="p-0 relative overflow-hidden">
+              <Image
+                width={800}
+                height={800}
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-64 object-cover transform transition-all"
+              />
               <Button
                 variant="ghost"
                 size="icon"
