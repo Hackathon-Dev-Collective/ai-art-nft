@@ -85,7 +85,13 @@ export default function AIImageGeneration() {
           {generatedImages.map((img) => (
             <Card key={img.id}>
               <CardContent className="p-4">
-                <img src={img.image} alt={img.prompt} className="w-full h-64 object-cover rounded-md mb-4" />
+                <Image
+                  width={800}
+                  height={800}
+                  src={img.image}
+                  alt={img.prompt}
+                  className="w-full h-64 object-cover rounded-md mb-4"
+                />
                 <p className="text-sm text-gray-600 mb-2">{img.prompt}</p>
                 <div className="flex justify-between">
                   <Button variant="outline" size="sm">
