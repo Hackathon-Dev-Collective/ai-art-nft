@@ -1,3 +1,7 @@
+/**
+ * @description ai 生图
+ */
+
 import ArtGenerator from "@/components/ArtGenerator";
 
 export default function Art() {
