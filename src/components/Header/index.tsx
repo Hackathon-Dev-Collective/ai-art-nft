@@ -64,10 +64,13 @@ const Header = () => {
           <span className="ml-2 text-xl font-semibold text-gray-900">ART NFT</span>
         </Link>
         <div className="flex items-center space-x-4">
-          <Link href="/" className="flex items-center">
+          <Link href="/generate" className="flex items-center">
+            <span className="ml-2 text-xl font-semibold text-gray-900">AI Generate</span>
+          </Link>
+          <Link href="/market" className="flex items-center">
             <span className="ml-2 text-xl font-semibold text-gray-900">交易市场</span>
           </Link>
-          <Link href="/" className="flex items-center">
+          <Link href="/user" className="flex items-center">
             <span className="ml-2 text-xl font-semibold text-gray-900">个人中心</span>
           </Link>
 
