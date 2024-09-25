@@ -6,6 +6,7 @@ const nextConfig = {
     // 暂时
     ignoreDuringBuilds: true,
   },
+  transpilePackages: ["three"],
 };
 
 export default nextConfig;
