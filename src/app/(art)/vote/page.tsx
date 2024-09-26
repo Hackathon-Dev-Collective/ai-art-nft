@@ -20,7 +20,7 @@ import {
 const initialImages = [
   {
     id: 1,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-17.png",
     alt: "Abstract Art 1",
     title: "Neon Dreams",
     author: {
@@ -32,7 +32,7 @@ const initialImages = [
   },
   {
     id: 2,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-18.png",
     alt: "Abstract Art 2",
     title: "Cosmic Waves",
     author: {
@@ -44,7 +44,7 @@ const initialImages = [
   },
   {
     id: 3,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-19.png",
     alt: "Abstract Art 3",
     title: "Digital Bloom",
     author: {
@@ -56,7 +56,7 @@ const initialImages = [
   },
   {
     id: 4,
-    src: "/images/demo-01.jpg",
+    src: "/images/demo-20.png",
     alt: "Abstract Art 4",
     title: "Quantum Patterns",
     author: {
@@ -64,6 +64,30 @@ const initialImages = [
       avatar: "/placeholder.svg?height=40&width=40",
     },
     likes: 768,
+    isFavorite: true,
+  },
+  {
+    id: 5,
+    src: "/images/demo-21.png",
+    alt: "Abstract Art 4",
+    title: "Quantum Patterns",
+    author: {
+      name: "David Wilson",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 768,
+    isFavorite: true,
+  },
+  {
+    id: 6,
+    src: "/images/demo-22.png",
+    alt: "Abstract Art 4",
+    title: "Quantum Patterns",
+    author: {
+      name: "David Wilson",
+      avatar: "/placeholder.svg?height=40&width=40",
+    },
+    likes: 900,
     isFavorite: true,
   },
 ];
