@@ -16,6 +16,11 @@ const request = (url: string, config: any) => {
         throw Error("接口请求异常");
       }
       return res.json();
+    }).then((res:any)=> {
+      if (res.status ! == 200) {
+        throw Error(res.msg)
+      }
+      return res
     })
     .catch((error: any) => {
       return Promise.reject(error);

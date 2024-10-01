@@ -90,19 +90,17 @@ const upcommingImages = [
     isFavorite: false,
   },
 ];
-const getImageList = async () => {
-  const res = await fetch("http://5j3iep.natappfree.cc/img/public_img_list?sort_by=likes");
-  const jsonRes = await res.json();
-  console.log({ jsonRes });
-};
+// const getImageList = async () => {
+//   const res = await fetch("http://5j3iep.natappfree.cc/img/public_img_list?sort_by=likes");
+//   const jsonRes = await res.json();
+//   console.log({ jsonRes });
+// };
 
 export default function Home() {
   const [images, setImages] = useState(initialImages);
   const [upcomming, setUpcomming] = useState(upcommingImages);
   const { address, chain, chainId, connector, status } = useUser();
   console.log({ address, chain, chainId, connector, status });
-
-  getImageList();
 
   return (
     <main className="w-full    sm:pt-20 flex flex-col justify-center items-center">
