@@ -4,12 +4,14 @@
 
 "use client";
 import Image from "next/image";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Image as ImageIcon, Download, Share2 } from "lucide-react";
+// import { client as imageClient, GenerationStyle, Status } from "imaginesdk";
 
 // Sample generated images data
 const sampleImages = [
@@ -27,6 +29,64 @@ export default function AIImageGeneration() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState(sampleImages);
+
+  // Initialize the client with your API key
+  // const imagine = imageClient("vk-FQtiyfFTMDD5qhYCGDKPXe3CcbjmgrdYU25mmo8EUZF3aE");
+
+  // const generateImage = async () => {
+  //   // Generate an image with the Imagine API
+  //   const response = await imagine.generations(
+  //     `A vibrant and whimsical fantasy forest with magical creatures, glowing plants, and a flowing river, in a digital painting style inspired by video games like Ori and the Blind Forest.`,
+  //     {
+  //       style: GenerationStyle.IMAGINE_V5,
+  //     }
+  //   );
+
+  //   // Check if the request was successful
+  //   if (response.status() === Status.OK) {
+  //     const image = response.getOrThrow();
+  //     image.asFile("output.png");
+  //   } else {
+  //     console.log(response.errorOrThrow());
+  //   }
+  // };
+
+  const handleClick = () => {
+    // debugger;
+    const url = "https://api.vyro.ai/v1/imagine/api/generations";
+
+    const headers = new Headers();
+    headers.append("Authorization", "Bearer vk-FQtiyfFTMDD5qhYCGDKPXe3CcbjmgrdYU25mmo8EUZF3aE");
+    // headers.append('responseType', 'blob');
+
+    const formdata = new FormData();
+    formdata.append("prompt", `an red basketball`);
+    formdata.append("style_id", "29");
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+      headers: headers,
+    };
+
+    // const response = await fetch(url, requestOptions);
+    // console.log({ response });
+    fetch(url, requestOptions)
+      .then((response) => response.blob())
+      .then((result) => {
+        console.log({ result });
+        const src = URL.createObjectURL(result);
+        const newImage = {
+          id: generatedImages.length + 1,
+          prompt: prompt,
+          image: `${src}?height=512&width=512&text=${encodeURIComponent(prompt)}`,
+        };
+        setGeneratedImages([newImage, ...generatedImages]);
+        setIsGenerating(false);
+        setPrompt("");
+      })
+      .catch((error) => console.log({ error }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +115,7 @@ export default function AIImageGeneration() {
             <CardDescription>Enter a detailed description of the image you want to create</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleClick}>
               <Textarea
                 placeholder="A futuristic cityscape with flying cars and neon billboards..."
                 value={prompt}

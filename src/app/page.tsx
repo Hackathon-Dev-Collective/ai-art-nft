@@ -139,17 +139,25 @@ const valuerinkImages = [
   },
 ];
 
+const getImageList = async () => {
+  const res = await fetch("http://5j3iep.natappfree.cc/img/public_img_list?sort_by=likes");
+  const jsonRes = await res.json();
+  console.log({ jsonRes });
+};
+
 export default function Home() {
   const [images, setImages] = useState(initialImages);
   const [upcomming, setUpcomming] = useState(upcommingImages);
   const [valueImages, setValueImages] = useState(valuerinkImages);
+
+  getImageList();
 
   return (
     <main className="w-full    sm:pt-20 flex flex-col justify-center items-center">
       <div className="w-full h-[60vh] min-h-[700px] mb-12 relative flex flex-col justify-center items-center">
         <Art3D />
         <div className="inset-0 flex flex-col items-center justify-center">
-          <h2 className="text-gray-900 text-4xl md:text-6xl font-bold mb-4 text-center z-10">AI NFT NeuroArt</h2>
+          <h2 className="text-gray-900 text-5xl md:text-6xl font-bold mb-4 text-center z-10">AI NFT NeuroArt</h2>
           {/* <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-center leading-tight">
             AI NFT NeuroArt
           </h1> */}
@@ -159,7 +167,10 @@ export default function Home() {
           {/* <p className="mt-4 text-xl md:text-2xl text-blue-100 font-light tracking-wide">
             The Future of Digital Creativity
           </p> */}
-          <Button size="lg" className=" text-white z-10">
+          <Button
+            size="lg"
+            className="text-white z-10 hover:bg-black/80 duration-300 transition-colors border border-transparent"
+          >
             Explore Collection
           </Button>
         </div>
