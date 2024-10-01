@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useUser from "@/hooks/useUser";
 
 // Sample data for images
 const initialImages = [
@@ -93,6 +94,7 @@ const initialImages = [
 ];
 
 export default function ImageCardList() {
+  useUser();
   const [images, setImages] = useState(initialImages);
 
   const toggleFavorite = (id: number) => {

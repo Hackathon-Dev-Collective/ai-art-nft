@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Box, Image as ImageIcon, DollarSign, Users } from "lucide-react";
+import useUser from "@/hooks/useUser";
 
 // Sample user data
 const user = {
@@ -43,6 +44,7 @@ const artworks = [
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState("nfts");
+  useUser()
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
