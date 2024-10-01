@@ -82,7 +82,7 @@ const Header = () => {
               <ConnectWalletButton />
             </MetaMaskProvider>
           </div>
-          {user ? (
+          {/* {user ? (
             <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <DropdownMenuTrigger asChild>
                 <Avatar className="cursor-pointer size-9">
@@ -96,12 +96,6 @@ const Header = () => {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="p-0">
-                {/* <DropdownMenuItem className="w-full cursor-pointer m-1">
-                  <Link href="/dashboard" className="flex w-full items-center">
-                    <Home className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </Link>
-                </DropdownMenuItem> */}
                 <form action={handleSignOut} className="p-1">
                   <button type="submit" className="flex w-full">
                     <DropdownMenuItem className="w-full cursor-pointer">
@@ -116,7 +110,7 @@ const Header = () => {
             <Button asChild className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 rounded-full">
               <Link href="/sign-up">Sign Up</Link>
             </Button>
-          )}
+          )} */}
         </div>
       </div>
     </header>

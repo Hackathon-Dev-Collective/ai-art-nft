@@ -1,3 +1,0 @@
-/**
- * checkk account statu
- */

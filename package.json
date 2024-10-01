@@ -31,6 +31,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ethers": "^6.13.2",
+    "install": "^0.13.0",
     "lucide-react": "^0.441.0",
     "next": "14.2.13",
     "next-sitemap": "^4.2.3",
@@ -43,6 +44,7 @@
     "three": "^0.168.0",
     "viem": "^2.21.16",
     "wagmi": "^2.12.16",
+    "web3": "^4.13.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
