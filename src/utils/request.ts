@@ -20,9 +20,9 @@ const request = (
 
   console.log({ localStorage });
   return fetch(`${baseUrl}${url}`, {
-    ...config, 
+    ...config,
     headers: {
-      access_token,
+      access_token: JSON.parse(access_token),
     },
   })
     .then((res: any) => {
