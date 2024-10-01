@@ -7,28 +7,33 @@ import Image from "next/image";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Image as ImageIcon, Download, Share2 } from "lucide-react";
-// import { client as imageClient, GenerationStyle, Status } from "imaginesdk";
+
+import { post } from "@/utils/request";
 
 // Sample generated images data
-const sampleImages = [
-  { id: 1, prompt: "A futuristic city with flying cars", image: "/placeholder.svg?height=512&width=512" },
-  { id: 2, prompt: "A serene landscape with a rainbow waterfall", image: "/placeholder.svg?height=512&width=512" },
-  { id: 3, prompt: "A cyberpunk cat in neon-lit alley", image: "/placeholder.svg?height=512&width=512" },
-  {
-    id: 4,
-    prompt: "An abstract representation of artificial intelligence",
-    image: "/placeholder.svg?height=512&width=512",
-  },
-];
+// const sampleImages = [
+//   { id: 1, prompt: "A futuristic city with flying cars", image: "/placeholder.svg?height=512&width=512" },
+//   { id: 2, prompt: "A serene landscape with a rainbow waterfall", image: "/placeholder.svg?height=512&width=512" },
+//   { id: 3, prompt: "A cyberpunk cat in neon-lit alley", image: "/placeholder.svg?height=512&width=512" },
+//   {
+//     id: 4,
+//     prompt: "An abstract representation of artificial intelligence",
+//     image: "/placeholder.svg?height=512&width=512",
+//   },
+// ];
 
 export default function AIImageGeneration() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedImages, setGeneratedImages] = useState(sampleImages);
+  // const [generatedImages, setGeneratedImages] = useState(sampleImages);
+  const [generatedImage, setGeneratedImage] = useState({
+    cid: 1,
+    prompt: "",
+    image: "/images/demo-03.jpg",
+  });
 
   // Initialize the client with your API key
   // const imagine = imageClient("vk-FQtiyfFTMDD5qhYCGDKPXe3CcbjmgrdYU25mmo8EUZF3aE");
@@ -51,57 +56,20 @@ export default function AIImageGeneration() {
   //   }
   // };
 
-  const handleClick = () => {
-    // debugger;
-    const url = "https://api.vyro.ai/v1/imagine/api/generations";
-
-    const headers = new Headers();
-    headers.append("Authorization", "Bearer vk-FQtiyfFTMDD5qhYCGDKPXe3CcbjmgrdYU25mmo8EUZF3aE");
-    // headers.append('responseType', 'blob');
-
-    const formdata = new FormData();
-    formdata.append("prompt", `an red basketball`);
-    formdata.append("style_id", "29");
-
-    const requestOptions = {
-      method: "POST",
-      body: formdata,
-      headers: headers,
-    };
-
-    // const response = await fetch(url, requestOptions);
-    // console.log({ response });
-    fetch(url, requestOptions)
-      .then((response) => response.blob())
-      .then((result) => {
-        console.log({ result });
-        const src = URL.createObjectURL(result);
-        const newImage = {
-          id: generatedImages.length + 1,
-          prompt: prompt,
-          image: `${src}?height=512&width=512&text=${encodeURIComponent(prompt)}`,
-        };
-        setGeneratedImages([newImage, ...generatedImages]);
-        setIsGenerating(false);
-        setPrompt("");
-      })
-      .catch((error) => console.log({ error }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleClick = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsGenerating(true);
-    // Simulate image generation
-    setTimeout(() => {
-      const newImage = {
-        id: generatedImages.length + 1,
-        prompt: prompt,
-        image: `/images/demo-05.jpg?height=512&width=512&text=${encodeURIComponent(prompt)}`,
-      };
-      setGeneratedImages([newImage, ...generatedImages]);
-      setIsGenerating(false);
-      setPrompt("");
-    }, 2000);
+    const params = {
+      prompt,
+      style: "scofield", //Option[]
+      price: 0.0,
+    };
+    const response = await post("/img/generator", params);
+    console.log({response})
+    setGeneratedImage({ ...generatedImage, ...response.data });
+    console.log({ generatedImage });
+    setIsGenerating(false);
+    setPrompt("");
   };
 
   return (
@@ -141,8 +109,30 @@ export default function AIImageGeneration() {
         </Card>
 
         <h2 className="text-gray-800 text-2xl font-semibold mb-4">Generated Images</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {generatedImages.map((img) => (
+        <div className="w-full">
+          <Card className="shadow-md">
+            <CardContent className="p-4">
+              <Image
+                width={800}
+                height={800}
+                src={generatedImage.image}
+                alt={generatedImage.prompt}
+                className="w-full h-full object-cover rounded-md mb-4"
+              />
+              <p className="text-sm text-gray-600 mb-2">{generatedImage.prompt}</p>
+              <div className="flex justify-between">
+                <Button variant="outline" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          {/* {generatedImages.map((img) => (
             <Card key={img.id} className="shadow-md">
               <CardContent className="p-4">
                 <Image
@@ -165,7 +155,7 @@ export default function AIImageGeneration() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+          ))} */}
         </div>
 
         <Card className="mt-12 shadow-md">

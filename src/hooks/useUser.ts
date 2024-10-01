@@ -39,6 +39,7 @@ function useUser() {
       fetchNonce();
     } else {
       console.log({ "disconnected-------------------": address });
+      setNonce('')
     }
   }, [isConnected, address]);
 

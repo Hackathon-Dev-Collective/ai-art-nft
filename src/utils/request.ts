@@ -4,7 +4,12 @@
 const baseUrl = "http://5j3iep.natappfree.cc";
 
 const request = (url: string, config: any) => {
-  return fetch(`${baseUrl}${url}`, config)
+  return fetch(`${baseUrl}${url}`, {
+    headers: {
+      Authorization: "token.......",
+    },
+    ...config,
+  })
     .then((res: any) => {
       if (!res.ok) {
         // 服务器异常返回
@@ -28,6 +33,7 @@ export const post = (url: string, data: any) => {
     body: JSON.stringify(data),
     headers: {
       "content-type": "application/json",
+      Authorization: "token.......",
     },
     method: "POST",
   });
