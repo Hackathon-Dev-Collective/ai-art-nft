@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Image as ImageIcon, Download, Share2 } from "lucide-react";
 
 import { post } from "@/utils/request";
+import useUser from "@/hooks/useUser";
 
 // Sample generated images data
 // const sampleImages = [
@@ -28,9 +29,11 @@ import { post } from "@/utils/request";
 export default function AIImageGeneration() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  // const { isConnected } = useUser();
+  useUser();
   // const [generatedImages, setGeneratedImages] = useState(sampleImages);
   const [generatedImage, setGeneratedImage] = useState({
-    cid: 1,
+    cid: "",
     prompt: "",
     image: "/images/demo-03.jpg",
   });
@@ -62,14 +65,24 @@ export default function AIImageGeneration() {
     const params = {
       prompt,
       style: "scofield", //Option[]
-      price: 0.0,
+      price: 26,
     };
-    const response = await post("/img/generator", params);
-    console.log({response})
-    setGeneratedImage({ ...generatedImage, ...response.data });
-    console.log({ generatedImage });
-    setIsGenerating(false);
-    setPrompt("");
+    try {
+      const response = await post("/img/generator", params);
+      console.log({ response });
+      setGeneratedImage(
+        Object.assign(generatedImage, {
+          cid: response.data.cid,
+          image: `https://gateway.pinata.cloud/ipfs/${response.data.cid}`,
+        })
+      );
+      console.log({ generatedImage });
+      setIsGenerating(false);
+      setPrompt("");
+    } catch (error) {
+      console.log({ error });
+      setIsGenerating(false);
+    }
   };
 
   return (

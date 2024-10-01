@@ -17,16 +17,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   transpilePackages: ["three"],
-  // images: {
-  //   remotePatterns: [
-  //     {
-  //       protocol: "https",
-  //       hostname: "unsplash.com",
-  //       port: "",
-  //       pathname: "/photos/**",
-  //     },
-  //   ],
-  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "gateway.pinata.cloud",
+        port: "",
+        pathname: "/ipfs/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
