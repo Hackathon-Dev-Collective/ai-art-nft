@@ -18,6 +18,7 @@ import {
 import useUser from "@/hooks/useUser";
 
 import { getImageList,vote } from "@/service/index";
+import MintNft from "@/components/MintNft/index"
 
 // Sample data for images
 const initialImages = [
@@ -99,6 +100,7 @@ export default function ImageCardList() {
   useUser();
   const [images, setImages] = useState(initialImages);
 
+  /** 点赞 赞后判断 likescount 满足条件 出发合约铸造NFT */
   const toggleFavorite = async (id: number) => {
    
     const voteRes = await vote({cid:id})
@@ -131,11 +133,6 @@ export default function ImageCardList() {
     console.log({ res });
     setImages(imageArr);
   };
-
-  const voteHandle = () => {
-    console.log("vote");
-  };
-
   useEffect(() => {
     getImages();
   }, []);
@@ -143,6 +140,8 @@ export default function ImageCardList() {
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
       <h1 className="text-3xl font-bold text-gray-900 mb-8 mt-10">Discover AI-Generated Art</h1>
+     <MintNft/>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {images.map((image) => (
           <Card key={image.id} className="overflow-hidden scale-hover shadow-md">

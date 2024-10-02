@@ -14,3 +14,5 @@ export const vote = (params:any) => post("/img/like", params);
 export const getNftList = () => get("/nft/nft_list");
 
 export const getUserNftList = () => get("/nft/user_nft_list");
+
+export const mintNft = () => post("/nft/mint", params)
