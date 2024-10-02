@@ -7,7 +7,7 @@ const avalanche = {
   name: 'Linea Sepolia',
   iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
   iconBackground: '#fff',
-  nativeCurrency: { name: 'Linea Sepolia', symbol: 'LineaSepolia', decimals: 18 },
+  nativeCurrency: { name: 'Linea Sepolia', symbol: 'LS', decimals: 18 },
   rpcUrls: {
     default: { http: ['https://rpc.sepolia.linea.build'] },
   },
