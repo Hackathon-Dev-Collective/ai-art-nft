@@ -4,7 +4,7 @@
 
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,9 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Box, Image as ImageIcon, DollarSign, Users } from "lucide-react";
 import useUser from "@/hooks/useUser";
+import {getUserImgList,getUserNftList} from "@/service";
 
 // Sample user data
-const user = {
+const defaultUser = {
   name: "Alice Johnson",
   username: "@alicecreates",
   avatar: "/images/demo-03.jpg",
@@ -23,28 +24,57 @@ const user = {
   following: 256,
 };
 
-// Sample NFT data
-const nfts = [
-  { id: 1, title: "Cosmic Dreamscape", image: "/images/demo-03.jpg", price: 0.5 },
-  { id: 2, title: "Neon Cityscape", image: "/images/demo-04.jpg", price: 0.75 },
-  { id: 3, title: "Digital Flora", image: "/images/demo-10.jpg", price: 0.3 },
-  { id: 4, title: "Quantum Fragments", image: "/images/demo-06.jpg", price: 1.2 },
-  { id: 5, title: "Quantum Fragments", image: "/images/demo-07.jpg", price: 1.2 },
-  { id: 6, title: "Quantum Fragments", image: "/images/demo-08.jpg", price: 1.2 },
-  { id: 7, title: "Quantum Fragments", image: "/images/demo-09.jpg", price: 1.2 },
-];
+// // Sample NFT data
+// const nfts = [
+//   { id: 1, title: "Cosmic Dreamscape", image: "/images/demo-03.jpg", price: 0.5 },
+//   { id: 2, title: "Neon Cityscape", image: "/images/demo-04.jpg", price: 0.75 },
+//   { id: 3, title: "Digital Flora", image: "/images/demo-10.jpg", price: 0.3 },
+//   { id: 4, title: "Quantum Fragments", image: "/images/demo-06.jpg", price: 1.2 },
+//   { id: 5, title: "Quantum Fragments", image: "/images/demo-07.jpg", price: 1.2 },
+//   { id: 6, title: "Quantum Fragments", image: "/images/demo-08.jpg", price: 1.2 },
+//   { id: 7, title: "Quantum Fragments", image: "/images/demo-09.jpg", price: 1.2 },
+// ];
 
 // Sample artwork data
-const artworks = [
-  { id: 1, title: "Abstract Harmony", image: "/images/demo-04.jpg", likes: 230 },
-  { id: 2, title: "Serene Landscape", image: "/images/demo-04.jpg", likes: 189 },
-  { id: 3, title: "Urban Rhythm", image: "/images/demo-04.jpg", likes: 275 },
-  { id: 4, title: "Ethereal Portrait", image: "/images/demo-04.jpg", likes: 312 },
-];
+// const artworks = [
+//   { id: 1, title: "Abstract Harmony", image: "/images/demo-04.jpg", likes: 230 },
+//   { id: 2, title: "Serene Landscape", image: "/images/demo-04.jpg", likes: 189 },
+//   { id: 3, title: "Urban Rhythm", : "/images/demo-04.jpg", likes: 275 },
+//   { id: 4, title: "Ethereal Portrait", image: "/images/demo-04.jpg", likes: 312 },
+// ];
 
 export default function UserDashboard() {
   const [activeTab, setActiveTab] = useState("nfts");
-  useUser()
+  const [nfts,setNfts] = useState([]);
+  const [artworks,setArtworks] = useState([]);
+
+  const {address,isConnected}= useUser()
+  const user={
+    ...defaultUser,
+    name:address,
+    username:address,
+  }
+  
+  useEffect(()=>{
+    if(isConnected){
+      getUserNftList().then(res=>{
+        setNfts(res?.data?.images?.map(({cid,likes_count,author_address,price}:any)=>({
+          id:cid,
+          title:author_address,
+          image:cid,
+          price:price,
+        }))||[])
+      })
+      getUserImgList().then(res=>{
+        setArtworks(res?.data?.images?.map(({cid,likes_count,author_address}:any)=>({
+          id:cid,
+          title:author_address,
+          image:cid,
+          likes:likes_count,
+        }))||[])
+      })
+    }
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
@@ -55,7 +85,7 @@ export default function UserDashboard() {
               <div className="flex items-center space-x-4">
                 <Avatar className="h-20 w-20">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback> 
                 </Avatar>
                 <div>
                   <CardTitle>{user.name}</CardTitle>

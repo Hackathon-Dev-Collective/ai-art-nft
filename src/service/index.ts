@@ -18,3 +18,5 @@ export const getUserNftList = () => get("/nft/user_nft_list");
 export const mintNft = (params) => post("/nft/mint", params)
 
 export const transferNft = (params: any) => post("/nft/transfer", params)
+// user 
+export const getUserImgList = () => get("/img/user_img_list");
