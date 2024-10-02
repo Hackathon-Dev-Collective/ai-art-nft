@@ -4,7 +4,7 @@
 
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, Share2, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -16,6 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useUser from "@/hooks/useUser";
+
+import { getImageList,vote } from "@/service/index";
 
 // Sample data for images
 const initialImages = [
@@ -97,13 +99,56 @@ export default function ImageCardList() {
   useUser();
   const [images, setImages] = useState(initialImages);
 
-  const toggleFavorite = (id: number) => {
-    setImages(images.map((img) => (img.id === id ? { ...img, isFavorite: !img.isFavorite } : img)));
+  const toggleFavorite = async (id: number) => {
+   
+    const voteRes = await vote({cid:id})
+     console.log({id,voteRes})
+     getImages()
+    // setImages(images.map((img) => (img.id === id ? { ...img, isFavorite: !img.isFavorite } : img)));
   };
 
   const formatLikes = (likes: number) => {
     return likes >= 1000 ? `${(likes / 1000).toFixed(1)}k` : likes.toString();
   };
+  // author_address: "0x5C237e4b5D68Beaa0215E4c2621D01739cdE52e8";
+  // cid: "Qmd4s3fKRVEgn3WBks4d7mQoXhj8rNoeLKZH2ypg6S5eJL";
+  // created_at: 1727845212;
+  // is_uplinked: false;
+  // likes_count: 0;
+  // owner_address: "0x5C237e4b5D68Beaa0215E4c2621D01739cdE52e8";
+  // price: 26;
+  // prompt: "a women";
+  const getImages = async () => {
+    const res = await getImageList();
+    let imageArr: any[] = [];
+    //   id: 6,
+    // src: "/images/demo-22.png",
+    // alt: "Abstract Art 4",
+    // title: "Quantum Patterns",
+    // author: {
+    //   name: "David Wilson",
+    //   avatar: "/placeholder.svg?height=40&width=40",
+    // },
+    // likes: 900,
+    // isFavorite: true,
+    res.data.images.forEach((image: any) => {
+      imageArr.push({
+        id: image.cid,
+        src: `https://gateway.pinata.cloud/ipfs/${image.cid}`,
+        likes: image.likes_count,
+      });
+    });
+    console.log({ res });
+    setImages(imageArr);
+  };
+
+  const voteHandle = () => {
+    console.log("vote");
+  };
+
+  useEffect(() => {
+    getImages();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
@@ -133,7 +178,7 @@ export default function ImageCardList() {
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4">
               <div className="flex items-center justify-between w-full mb-2">
-                <h2 className="text-xl font-semibold">{image.title}</h2>
+                {/* <h2 className="text-xl font-semibold">{image.title}</h2> */}
                 <div className="flex items-center space-x-2">
                   <Button variant="ghost" size="icon" aria-label="Share">
                     <Share2 className="h-5 w-5" />
@@ -153,11 +198,11 @@ export default function ImageCardList() {
               </div>
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center space-x-2">
-                  <Avatar>
+                  {/* <Avatar>
                     <AvatarImage src={image.author.avatar} alt={image.author.name} />
                     <AvatarFallback>{image.author.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium">{image.author.name}</span>
+                  </Avatar> */}
+                  {/* <span className="text-sm font-medium">{image.author.name}</span> */}
                 </div>
                 <div className="flex items-center space-x-1">
                   <Heart className="h-4 w-4 text-red-500" fill="currentColor" />

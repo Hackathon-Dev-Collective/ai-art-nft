@@ -1,3 +1,5 @@
 import { walletConfig } from "./wallet";
 
-export { walletConfig };
+const baseImageUrl = "https://gateway.pinata.cloud/ipfs/"
+
+export { walletConfig,baseImageUrl };

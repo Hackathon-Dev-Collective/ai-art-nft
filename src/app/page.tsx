@@ -1,6 +1,7 @@
 // import ArtGenerator from "@/components/ArtGenerator";
 // import Water from "@/components/Three3D";
 "use client";
+// import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
@@ -99,8 +100,8 @@ const upcommingImages = [
 export default function Home() {
   const [images, setImages] = useState(initialImages);
   const [upcomming, setUpcomming] = useState(upcommingImages);
-  const { address, chain, chainId, connector, status,token, nonce,message } = useUser();
-  console.log({ address, chain, chainId, connector, status,token, nonce,message });
+  const { address, chain, chainId, connector, status, token, nonce, message } = useUser();
+  console.log({ address, chain, chainId, connector, status, token, nonce, message });
 
   return (
     <main className="w-full    sm:pt-20 flex flex-col justify-center items-center">
