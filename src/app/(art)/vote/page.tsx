@@ -121,16 +121,6 @@ export default function ImageCardList() {
   const getImages = async () => {
     const res = await getImageList();
     let imageArr: any[] = [];
-    //   id: 6,
-    // src: "/images/demo-22.png",
-    // alt: "Abstract Art 4",
-    // title: "Quantum Patterns",
-    // author: {
-    //   name: "David Wilson",
-    //   avatar: "/placeholder.svg?height=40&width=40",
-    // },
-    // likes: 900,
-    // isFavorite: true,
     res.data.images.forEach((image: any) => {
       imageArr.push({
         id: image.cid,
