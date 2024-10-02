@@ -18,5 +18,57 @@ export const abi = [
         name:'tokenId',
         type:'uint256'
      }]
-  }
+  },
+   {
+     name: "getUserNFTs",
+         stateMutability: "view",
+        type: "function",
+        inputs: [
+            {
+                name: "user",
+                type: "address"
+            }
+        ],
+        outputs: [
+            {
+                name: "",
+                type: "uint256[]"
+            }
+        ],
+       
+    },
+        {
+        inputs: [],
+        name: "getNFTsForSale",
+        outputs: [
+            {
+                components: [
+                    {
+                        name: "id",
+                        type: "uint256"
+                    },
+                    {
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "name": "tokenURI",
+                        "type": "string"
+                    },
+                    {
+                        "name": "price",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "forSale",
+                        "type": "bool"
+                    }
+                ],
+                name: "",
+                type: "tuple[]"
+            }
+        ],
+        stateMutability: "view",
+        type: "function"
+    },
 ] as const
