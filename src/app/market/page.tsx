@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useWriteContract, useReadContract } from 'wagmi'
+import {contractUrl} from "@/config/index"
 
 import { abi } from '@/abi/index'
 import { parseEther } from 'viem'
@@ -94,7 +95,7 @@ export default function NFTMarket() {
     const { writeContract } = useWriteContract()
       const result = useReadContract({
     abi,
-    address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
+    address: contractUrl,
     functionName: 'getNFTsForSale',
   });
   console.log({'result----------':result})
@@ -133,15 +134,15 @@ export default function NFTMarket() {
   const purchaseNFT = ({cid}) => 
         writeContract({ 
           abi,
-          address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
+          address: contractUrl,
           functionName: 'purchaseNFT',
           args: [
-            // parseEther('0.01'), 
-            1n,
+            2n,
           ],
+          value:parseEther('0.01')
        },{
   onSuccess: () => {
-    console.log("Mint Success");
+    console.log("购买 Success----",cid);
     // 成功后 调用后台接口
     transferNft({cid})
   },
@@ -194,7 +195,7 @@ export default function NFTMarket() {
                     width={800}
                     height={800}
                     src={nft.src}
-                    alt={nft.title}
+                    alt={nft.prompt}
                     className="w-full h-64 object-cover transform transition-all"
                   />
                 </CardContent>

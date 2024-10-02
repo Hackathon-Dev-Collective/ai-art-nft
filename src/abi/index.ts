@@ -71,4 +71,32 @@ export const abi = [
         stateMutability: "view",
         type: "function"
     },
+        {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
+                name: "tokenId",
+                type: "uint256"
+            },
+            {
+                indexed: true,
+                name: "owner",
+                type: "address"
+            },
+            {
+                indexed: false,
+                internalType: "string",
+                name: "tokenURI",
+                type: "string"
+            },
+            {
+                indexed: false,
+                name: "price",
+                type: "uint256"
+            }
+        ],
+        name: "NFTCreated",
+        type: "event"
+    },
 ] as const

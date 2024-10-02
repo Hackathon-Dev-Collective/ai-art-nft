@@ -16,8 +16,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useUser from "@/hooks/useUser";
-import { useWriteContract } from 'wagmi'
-
+import { useWriteContract,   useWatchContractEvent } from 'wagmi'
+// import { waitForTransactionReceipt } from '@wagmi/core'
+import { walletConfig } from '@/config/index'
+import {contractUrl} from "@/config/index"
 import { abi } from '@/abi/index'
 import { parseEther } from 'viem'
 
@@ -103,13 +105,15 @@ const initialImages = [
 export default function ImageCardList() {
   useUser();
   const [images, setImages] = useState(initialImages);
+  // const [mintHash, setMintHash] = useState("")
+  // const [mintCid, setMintCid] = useState("")
 
   /** 点赞 赞后判断 likescount 满足条件 出发合约铸造NFT */
   const toggleFavorite = async ({id, likes}) => {
     console.log({id, likes})
     if (likes > 0) {
- doMint(id)
- return 
+      doMint(id)
+      return 
     }
   
     const voteRes = await vote({cid:id})
@@ -118,17 +122,19 @@ export default function ImageCardList() {
     // setImages(images.map((img) => (img.id === id ? { ...img, isFavorite: !img.isFavorite } : img)));
   };
 
+  useWatchContractEvent({
+    address: contractUrl,
+    abi,
+    eventName: 'NFTCreated',
+    onLogs(logs) {
+      console.log('New logs!--------------------------', logs)
+      // mintNft({cid})
+    },
+  })
+
   const formatLikes = (likes: number) => {
     return likes >= 1000 ? `${(likes / 1000).toFixed(1)}k` : likes.toString();
   };
-  // author_address: "0x5C237e4b5D68Beaa0215E4c2621D01739cdE52e8";
-  // cid: "Qmd4s3fKRVEgn3WBks4d7mQoXhj8rNoeLKZH2ypg6S5eJL";
-  // created_at: 1727845212;
-  // is_uplinked: false;
-  // likes_count: 0;
-  // owner_address: "0x5C237e4b5D68Beaa0215E4c2621D01739cdE52e8";
-  // price: 26;
-  // prompt: "a women";
   const getImages = async () => {
     const res = await getImageList();
     let imageArr: any[] = [];
@@ -143,24 +149,32 @@ export default function ImageCardList() {
     setImages(imageArr);
   };
 
-    const { writeContract } = useWriteContract()
+    const { writeContract  } = useWriteContract()
 
   const doMint = (cid:string) => 
+    // setMintCid(cid)
         writeContract({ 
           abi,
-          address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
+          address: contractUrl,
           functionName: 'createNFT',
           args: [
             'scofield-nft',
             parseEther('0.01'), 
           ],
        },{
-  onSuccess: () => {
-    console.log("Mint Success");
-    mintNft({cid})
+  onSuccess: async (data:any) => {
+    console.log("Mint Success------------",data);
+    // setMintHash(data)
+    // const transactionReceipt = await waitForTransactionReceipt(walletConfig, {
+    //   hash: data,
+    // })
+// console.log({'-----------transactionReceipt----------':transactionReceipt})
+    // mintNft({cid})
   },
   onError: (err) => {
-    console.log({'error---------':cid})
+    // console.log({'error---------':cid})
+    // setMintCid("")
+    // setMintHash("")
     console.log(err.message);
   },
 })
