@@ -16,9 +16,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useUser from "@/hooks/useUser";
+import { useWriteContract } from 'wagmi'
 
-import { getImageList,vote } from "@/service/index";
-import MintNft from "@/components/MintNft/index"
+import { abi } from '@/abi/index'
+import { parseEther } from 'viem'
+
+import { getImageList,vote,mintNft } from "@/service/index";
+// import MintNft from "@/components/MintNft/index"
 
 // Sample data for images
 const initialImages = [
@@ -101,8 +105,13 @@ export default function ImageCardList() {
   const [images, setImages] = useState(initialImages);
 
   /** 点赞 赞后判断 likescount 满足条件 出发合约铸造NFT */
-  const toggleFavorite = async (id: number) => {
-   
+  const toggleFavorite = async ({id, likes}) => {
+    console.log({id, likes})
+    if (likes > 0) {
+ doMint(id)
+ return 
+    }
+  
     const voteRes = await vote({cid:id})
      console.log({id,voteRes})
      getImages()
@@ -133,6 +142,29 @@ export default function ImageCardList() {
     console.log({ res });
     setImages(imageArr);
   };
+
+    const { writeContract } = useWriteContract()
+
+  const doMint = (cid:string) => 
+        writeContract({ 
+          abi,
+          address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
+          functionName: 'createNFT',
+          args: [
+            'scofield-nft',
+            parseEther('0.01'), 
+          ],
+       },{
+  onSuccess: () => {
+    console.log("Mint Success");
+    mintNft({cid})
+  },
+  onError: (err) => {
+    console.log({'error---------':cid})
+    console.log(err.message);
+  },
+})
+
   useEffect(() => {
     getImages();
   }, []);
@@ -140,8 +172,6 @@ export default function ImageCardList() {
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
       <h1 className="text-3xl font-bold text-gray-900 mb-8 mt-10">Discover AI-Generated Art</h1>
-     <MintNft/>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {images.map((image) => (
           <Card key={image.id} className="overflow-hidden scale-hover shadow-md">
@@ -159,7 +189,7 @@ export default function ImageCardList() {
                 className={`absolute top-2 right-2 bg-white/50 hover:bg-white/75 transition-colors ${
                   image.isFavorite ? "text-red-500" : "text-gray-600"
                 }`}
-                onClick={() => toggleFavorite(image.id)}
+                onClick={() => toggleFavorite(image)}
                 aria-label={image.isFavorite ? "Remove from favorites" : "Add to favorites"}
               >
                 <Heart className="h-5 w-5" fill={image.isFavorite ? "currentColor" : "none"} />
@@ -206,6 +236,4 @@ export default function ImageCardList() {
   );
 }
 
-// export default function ImageList() {
-//   return <div className="min-h-screen p-8 pb-20 sm:p-20 flex justify-center items-center">ImageList</div>;
-// }
+

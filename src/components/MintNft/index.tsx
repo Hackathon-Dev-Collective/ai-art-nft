@@ -1,8 +1,10 @@
 'use client'
 
 import { useWriteContract } from 'wagmi'
+
 import { abi } from '@/abi/index'
 import { Button } from "@/components/ui/button";
+import { parseEther } from 'viem'
 
 const MintNft = () =>  {
   const { writeContract } = useWriteContract()
@@ -10,12 +12,11 @@ const MintNft = () =>  {
   const doMint = () => 
         writeContract({ 
           abi,
-          address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+          address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
           functionName: 'createNFT',
           args: [
-            '0xd2135CfB216b74109775236E36d4b433F1DF507B',
-            '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-            123n,
+            'scofield-nft',
+            parseEther('0.01'), 
           ],
        },{
   onSuccess: () => {

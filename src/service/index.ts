@@ -15,4 +15,4 @@ export const getNftList = () => get("/nft/nft_list");
 
 export const getUserNftList = () => get("/nft/user_nft_list");
 
-export const mintNft = () => post("/nft/mint", params)
+export const mintNft = (params) => post("/nft/mint", params)
