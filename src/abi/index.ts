@@ -9,4 +9,14 @@ export const abi = [
     ],
     outputs: [],
   },
+  {
+    type: 'function',
+    name: 'purchaseNFT',
+    stateMutability: "payable",
+     outputs: [],
+     inputs:[{
+        name:'tokenId',
+        type:'uint256'
+     }]
+  }
 ] as const

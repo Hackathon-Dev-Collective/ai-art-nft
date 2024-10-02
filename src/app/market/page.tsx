@@ -18,6 +18,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
+import { useWriteContract } from 'wagmi'
+
+import { abi } from '@/abi/index'
+import { parseEther } from 'viem'
+
+import { transferNft } from "@/service/index";
+
 // Sample data for NFTs
 const initialNFTs = [
   {
@@ -83,6 +90,7 @@ const initialNFTs = [
 ];
 
 export default function NFTMarket() {
+    const { writeContract } = useWriteContract()
   const [nfts, setNfts] = useState(initialNFTs);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -94,6 +102,32 @@ export default function NFTMarket() {
       nft.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedCategory === "All" || nft.category === selectedCategory)
   );
+
+ 
+
+  const purchaseNFT = (value:number) => 
+        writeContract({ 
+          abi,
+          address: '0x0Ee0d12a58eE35270374f70dc5a61CDC35f0296d',
+          functionName: 'purchaseNFT',
+          args: [
+            parseEther('0.01'), 
+          ],
+       },{
+  onSuccess: () => {
+    console.log("Mint Success");
+    // 成功后 调用后台接口
+    transferNft({cid})
+  },
+  onError: (err) => {
+    console.log({'error---------':cid})
+    console.log(err.message);
+  },
+})
+
+ const buyNft = ({}) => {
+    purchaseNFT('sss')
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">
@@ -192,7 +226,7 @@ export default function NFTMarket() {
                       {nft.price} {nft.currency}
                     </span>
                   </div>
-                  <Button className="w-full">Buy Now</Button>
+                  <Button className="w-full" onClick={buyNft}>Buy Now</Button>
                 </CardFooter>
               </Card>
             ))}
