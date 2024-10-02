@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Box, Image as ImageIcon, DollarSign, Users } from "lucide-react";
 import useUser from "@/hooks/useUser";
 import {getUserImgList,getUserNftList} from "@/service";
+import {getCidUrl} from "@/utils";
 
 // Sample user data
 const defaultUser = {
@@ -61,7 +62,7 @@ export default function UserDashboard() {
         setNfts(res?.data?.images?.map(({cid,likes_count,author_address,price}:any)=>({
           id:cid,
           title:author_address,
-          image:cid,
+          image:getCidUrl(cid),
           price:price,
         }))||[])
       })
@@ -69,7 +70,7 @@ export default function UserDashboard() {
         setArtworks(res?.data?.images?.map(({cid,likes_count,author_address}:any)=>({
           id:cid,
           title:author_address,
-          image:cid,
+          image:getCidUrl(cid),
           likes:likes_count,
         }))||[])
       })
