@@ -112,12 +112,14 @@ export default function Home() {
           <p className="text-gray-900 text-xl md:text-2xl mb-8 text-center z-10">
             The Future of Digital Art on the Blockchain
           </p>
+           <Link href="/generate" className="flex items-center">
           <Button
             size="lg"
             className="text-white z-10 hover:bg-black/80 duration-300 transition-colors border border-transparent"
           >
             Explore Collection
           </Button>
+          </Link>
         </div>
       </div>
       <h3 className="text-gray-900 text-3xl font-bold mb-4">Providing Value with Endless Features</h3>
