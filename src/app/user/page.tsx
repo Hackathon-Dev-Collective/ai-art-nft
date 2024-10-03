@@ -75,7 +75,7 @@ export default function UserDashboard() {
         }))||[])
       })
     }
-  },[])
+  },[isConnected])
 
   return (
     <div className="min-h-screen bg-gray-100 p-8  pb-20 sm:p-20 flex flex-col justify-center items-center">

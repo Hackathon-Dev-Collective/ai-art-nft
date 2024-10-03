@@ -65,7 +65,7 @@ export default function AIImageGeneration() {
     const params = {
       prompt,
       style: "scofield", //Option[]
-      price: 26,
+      price: 0.0001,
     };
     try {
       const response = await post("/img/generator", params);

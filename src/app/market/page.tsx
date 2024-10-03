@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {shortenAddress} from "@/utils/index"
 
 import { useWriteContract, useReadContract } from 'wagmi'
 import {contractUrl} from "@/config/index"
@@ -28,88 +29,36 @@ import { transferNft,getNftList } from "@/service/index";
 // Sample data for NFTs
 const initialNFTs = [
   {
-    id: 1,
-    // title: "Cosmic Dreamscape",
-    // artist: "Elena Starlight",
+    tokenId: 1,
     src: "/images/demo-02.jpg",
     prompt:'',
-    price: 0.5,
-    // currency: "ETH",
-    // likes: 1024,
+    price: 0.005,
+    forSale:true,
     category: "Abstract",
   },
   {
-    // id: 2,
-    // title: "Neon Cityscape",
-    // artist: "Alex Neon",
+    tokenId: 2,
     src: "/images/demo-11.png",
     prompt:'',
     price: 0.75,
-    // currency: "ETH",
-    // likes: 896,
+    forSale:true,
     category: "Cyberpunk",
   },
-  // {
-  //   id: 3,
-  //   title: "Digital Flora",
-  //   artist: "Lily Bytes",
-  //   image: "/images/demo-12.png",
-  //   price: 0.3,
-  //   currency: "ETH",
-  //   likes: 1536,
-  //   category: "Nature",
-  // },
-  // {
-  //   id: 4,
-  //   title: "Quantum Fragments",
-  //   artist: "Dr. Qubit",
-  //   image: "/images/demo-13.png",
-  //   price: 1.2,
-  //   currency: "ETH",
-  //   likes: 768,
-  //   category: "Sci-Fi",
-  // },
-  // {
-  //   id: 5,
-  //   title: "Retro Pixels",
-  //   artist: "Bit Master",
-  //   image: "/images/demo-14.jpg",
-  //   price: 0.4,
-  //   currency: "ETH",
-  //   likes: 2048,
-  //   category: "Pixel Art",
-  // },
-  // {
-  //   id: 6,
-  //   title: "Ethereal Whispers",
-  //   artist: "Mystic Brush",
-  //   image: "/images/demo-02.jpg",
-  //   price: 0.6,
-  //   currency: "ETH",
-  //   likes: 1280,
-  //   category: "Surrealism",
-  // },
 ];
 
 export default function NFTMarket() {
     const { writeContract } = useWriteContract()
-      const result = useReadContract({
-    abi,
-    address: contractUrl,
-    functionName: 'getNFTsForSale',
-  });
-  console.log({'result----------':result})
+
   const [nfts, setNfts] = useState(initialNFTs);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const {isSuccess, data} = useReadContract({
+    abi,
+    address: contractUrl,
+    functionName: 'getNFTsForSale',
+  });
   const categories = ["All", "Abstract", "Cyberpunk", "Nature", "Sci-Fi", "Pixel Art", "Surrealism"];
-
-  // const filteredNFTs = nfts.filter(
-  //   (nft) =>
-  //     nft.title.includes(searchTerm) &&
-  //     (selectedCategory === "All" || nft.category === selectedCategory)
-  // );
 
   const getNftLists = async () => {
         const list = await getNftList();
@@ -128,23 +77,44 @@ export default function NFTMarket() {
   }
 
   useEffect(() => {
-    getNftLists()
-  },[])
+    // getNftLists()
+    console.log({'result---------------result': data})
+    if(data){
+      const images = []
+      data.filter((item)=>item.tokenURI !== "scofield-nft" ).forEach((item) => {
+      images.push({
+        forSale:item.forSale,
+        tokenId:item.id,
+        owner: shortenAddress(item.owner),
+        prompt:'',
+        price: item.price,
+        src: item.tokenURI
+      })
+      })
+        setNfts(images)
+    }else {
+       setNfts(initialNFTs)
+    }
+   
+  },[isSuccess])
 
-  const purchaseNFT = ({cid}) => 
+  const purchaseNFT = (nft:any) => 
         writeContract({ 
           abi,
           address: contractUrl,
           functionName: 'purchaseNFT',
           args: [
-            2n,
+            nft.tokenId
           ],
-          value:parseEther('0.01')
+          // value:parseEther(`${nft.price}`)
+          value:parseEther(`0.0001`)
        },{
   onSuccess: () => {
-    console.log("购买 Success----",cid);
+    console.log("购买 Success----",nft);
+     const sp = nft.src.split("/")
+  console.log({'sp':sp[sp.length-1]})
     // 成功后 调用后台接口
-    transferNft({cid})
+    transferNft({cid:sp[sp.length-1]})
   },
   onError: (err) => {
     console.log({'error---------':cid})
@@ -152,8 +122,9 @@ export default function NFTMarket() {
   },
 })
 
- const buyNft = async ({cid}) => {
-    purchaseNFT(cid)
+ const buyNft = async (nft) => {
+  console.log({'nft---------':nft})
+    purchaseNFT(nft)
   }
 
   return (
@@ -189,7 +160,7 @@ export default function NFTMarket() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {nfts.map((nft) => (
-              <Card key={nft.id} className="overflow-hidden scale-hover">
+              <Card key={nft.tokenId} className="overflow-hidden scale-hover">
                 <CardContent className="p-0 overflow-hidden">
                   <Image
                     width={800}
@@ -200,13 +171,13 @@ export default function NFTMarket() {
                   />
                 </CardContent>
                 <CardFooter className="flex flex-col items-start p-4">
-                  {/* <h2 className="text-xl font-semibold mb-2">{nft.title}</h2> */}
+                  <h2 className="text-xl font-semibold mb-2">{nft.owner}</h2>
                   <div className="flex items-center justify-between w-full mb-4">
                     <div className="flex items-center space-x-2">
-                      <Avatar className="h-6 w-6">
+                      {/* <Avatar className="h-6 w-6">
                         <AvatarImage src={`/placeholder.svg?height=24&width=24`} alt={nft.prompt} />
-                        {/* <AvatarFallback>{nft.artist[0]}</AvatarFallback> */}
-                      </Avatar>
+                        <AvatarFallback>{nft.artist[0]}</AvatarFallback>
+                      </Avatar> */}
                       {/* <span className="text-sm text-gray-500">{nft.artist}</span> */}
                     </div>
                     <span className="text-sm font-medium">

@@ -2,7 +2,7 @@
  * 先简单封装
  */
 import { RequestOptions } from "@/types/index";
-const baseUrl = "http://5vhjnu.natappfree.cc";
+const baseUrl = "https://laoshihanhou.mynatapp.cc";
 
 const request = (url: string, config: any, options: RequestOptions = { requiresWallet: true }) => {
   const access_token = localStorage.getItem("authToken");

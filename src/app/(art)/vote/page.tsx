@@ -16,8 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useUser from "@/hooks/useUser";
+import {shortenAddress} from "@/utils/index"
 import { useWriteContract,   useWatchContractEvent } from 'wagmi'
-// import { waitForTransactionReceipt } from '@wagmi/core'
 import { walletConfig } from '@/config/index'
 import {contractUrl} from "@/config/index"
 import { abi } from '@/abi/index'
@@ -31,72 +31,54 @@ const initialImages = [
   {
     id: 1,
     src: "/images/demo-17.png",
-    alt: "Abstract Art 1",
+    prompt: "Abstract Art 1",
     title: "Neon Dreams",
-    author: {
-      name: "Alice Johnson",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "Alice Johnson",
     likes: 1024,
     isFavorite: false,
   },
   {
     id: 2,
     src: "/images/demo-18.png",
-    alt: "Abstract Art 2",
+    prompt: "Abstract Art 2",
     title: "Cosmic Waves",
-    author: {
-      name: "Bob Smith",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "Bob Smith",
     likes: 896,
     isFavorite: true,
   },
   {
     id: 3,
     src: "/images/demo-19.png",
-    alt: "Abstract Art 3",
+    prompt: "Abstract Art 3",
     title: "Digital Bloom",
-    author: {
-      name: "Carol Davis",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "Carol Davis",
     likes: 1536,
     isFavorite: false,
   },
   {
     id: 4,
     src: "/images/demo-20.png",
-    alt: "Abstract Art 4",
+    prompt: "Abstract Art 4",
     title: "Quantum Patterns",
-    author: {
-      name: "David Wilson",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "David Wilson",
     likes: 768,
     isFavorite: true,
   },
   {
     id: 5,
     src: "/images/demo-21.png",
-    alt: "Abstract Art 4",
+    prompt: "Abstract Art 4",
     title: "Quantum Patterns",
-    author: {
-      name: "David Wilson",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "David Wilson",
     likes: 768,
     isFavorite: true,
   },
   {
     id: 6,
     src: "/images/demo-22.png",
-    alt: "Abstract Art 4",
+    prompt: "Abstract Art 4",
     title: "Quantum Patterns",
-    author: {
-      name: "David Wilson",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
+    author: "David Wilson",
     likes: 900,
     isFavorite: true,
   },
@@ -105,9 +87,6 @@ const initialImages = [
 export default function ImageCardList() {
   useUser();
   const [images, setImages] = useState(initialImages);
-  // const [mintHash, setMintHash] = useState("")
-  // const [mintCid, setMintCid] = useState("")
-
   /** 点赞 赞后判断 likescount 满足条件 出发合约铸造NFT */
   const toggleFavorite = async ({id, likes}) => {
     console.log({id, likes})
@@ -138,11 +117,15 @@ export default function ImageCardList() {
   const getImages = async () => {
     const res = await getImageList();
     let imageArr: any[] = [];
-    res.data.images.forEach((image: any) => {
+    res.data.images.filter((item) => item.is_uplinked).forEach((image: any) => {
       imageArr.push({
         id: image.cid,
         src: `https://gateway.pinata.cloud/ipfs/${image.cid}`,
         likes: image.likes_count,
+        is_uplinked:image.is_uplinked,
+        prompt:image.prompt,
+        owner: shortenAddress(image.owner_address),
+        author:shortenAddress(image.author_address),
       });
     });
     console.log({ res });
@@ -152,29 +135,19 @@ export default function ImageCardList() {
     const { writeContract  } = useWriteContract()
 
   const doMint = (cid:string) => 
-    // setMintCid(cid)
         writeContract({ 
           abi,
           address: contractUrl,
           functionName: 'createNFT',
           args: [
-            'scofield-nft',
-            parseEther('0.01'), 
+            `https://gateway.pinata.cloud/ipfs/${cid}`,
+            parseEther('0.0001'), 
           ],
        },{
   onSuccess: async (data:any) => {
     console.log("Mint Success------------",data);
-    // setMintHash(data)
-    // const transactionReceipt = await waitForTransactionReceipt(walletConfig, {
-    //   hash: data,
-    // })
-// console.log({'-----------transactionReceipt----------':transactionReceipt})
-    // mintNft({cid})
   },
   onError: (err) => {
-    // console.log({'error---------':cid})
-    // setMintCid("")
-    // setMintHash("")
     console.log(err.message);
   },
 })
@@ -194,7 +167,7 @@ export default function ImageCardList() {
                 width={800}
                 height={800}
                 src={image.src}
-                alt={image.alt}
+                alt={image.prompt}
                 className="w-full h-64 object-cover transform transition-all"
               />
               <Button
@@ -211,7 +184,7 @@ export default function ImageCardList() {
             </CardContent>
             <CardFooter className="flex flex-col items-start p-4">
               <div className="flex items-center justify-between w-full mb-2">
-                {/* <h2 className="text-xl font-semibold">{image.title}</h2> */}
+                <h2 className="text-xl font-semibold">{image.owner}</h2>
                 <div className="flex items-center space-x-2">
                   <Button variant="ghost" size="icon" aria-label="Share">
                     <Share2 className="h-5 w-5" />
@@ -235,7 +208,7 @@ export default function ImageCardList() {
                     <AvatarImage src={image.author.avatar} alt={image.author.name} />
                     <AvatarFallback>{image.author.name.charAt(0)}</AvatarFallback>
                   </Avatar> */}
-                  {/* <span className="text-sm font-medium">{image.author.name}</span> */}
+                  {/* <span className="text-sm font-medium">{image.author}</span> */}
                 </div>
                 <div className="flex items-center space-x-1">
                   <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
