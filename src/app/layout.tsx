@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import localFont from "next/font/local";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/toaster"
 
 import "./globals.css";
 import Header from "@/components/Header";
@@ -42,6 +43,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+           <Toaster />
         </Providers>
         <SpeedInsights />
         <Analytics />

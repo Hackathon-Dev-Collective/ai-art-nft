@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { CircleIcon, Home, LogOut } from "lucide-react";
 import { MetaMaskProvider } from "@metamask/sdk-react";
@@ -17,6 +18,8 @@ import ConnectWalletButton from "@/components/ConnectWalletButton";
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname()
+  console.log({'pathname-------------------pathname':pathname})
   // Sticky Navbar
   const [sticky, setSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,18 +66,35 @@ const Header = () => {
           <CircleIcon className="h-6 w-6 text-orange-500" />
           <span className="ml-2 text-xl font-semibold text-gray-900">NeuroArt</span>
         </Link>
-        <div className="flex items-center space-x-4">
-          <Link href="/generate" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">AI Generate</span>
+        <div className="flex items-center space-x-4 text-gray-900">
+       
+          <Link href="/generate" className={`flex items-center p-[5px] ${
+              pathname === '/generate'
+               ? 'text-amber-600'
+                : 'hover:text-amber-600'
+            }`}>
+            <span className="ml-2 text-xl font-semibold ">AI Generate</span>
           </Link>
-          <Link href="/vote" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">Arts</span>
+          <Link href="/vote" className={`flex items-center p-[5px] ${
+              pathname === '/vote'
+               ? 'text-amber-600'
+                : 'hover:text-amber-600'
+            }`}>
+            <span className="ml-2 text-xl font-semibold">Arts</span>
           </Link>
-          <Link href="/market" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">Market</span>
+          <Link href="/market" className={`flex items-center p-[5px] ${
+              pathname === '/market'
+               ? 'text-amber-600'
+                : 'hover:text-amber-600'
+            }`}>
+            <span className="ml-2 text-xl font-semibold">Market</span>
           </Link>
-          <Link href="/user" className="flex items-center">
-            <span className="ml-2 text-xl font-semibold text-gray-900">User</span>
+          <Link href="/user" className={`flex items-center p-[5px] ${
+              pathname === '/user'
+               ? 'text-amber-600'
+                : 'hover:text-amber-600'
+            }`}>
+            <span className="ml-2 text-xl font-semibold">User</span>
           </Link>
 
           <div className="flex gap-4 px-6">

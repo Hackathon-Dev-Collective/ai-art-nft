@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,6 +48,7 @@ const initialNFTs = [
 ];
 
 export default function NFTMarket() {
+   const { toast } = useToast()
     const { writeContract } = useWriteContract()
 
   const [nfts, setNfts] = useState(initialNFTs);
@@ -81,7 +83,7 @@ export default function NFTMarket() {
     console.log({'result---------------result': data})
     if(data){
       const images = []
-      data.filter((item)=>item.tokenURI !== "scofield-nft" ).forEach((item) => {
+      data.filter((item)=> item.tokenURI.includes("ipfs")).forEach((item) => {
       images.push({
         forSale:item.forSale,
         tokenId:item.id,
@@ -91,7 +93,7 @@ export default function NFTMarket() {
         src: item.tokenURI
       })
       })
-        setNfts(images)
+        setNfts(images.reverse())
     }else {
        setNfts(initialNFTs)
     }
@@ -109,15 +111,28 @@ export default function NFTMarket() {
           // value:parseEther(`${nft.price}`)
           value:parseEther(`0.0001`)
        },{
-  onSuccess: () => {
+  onSuccess: async () => {
     console.log("购买 Success----",nft);
      const sp = nft.src.split("/")
   console.log({'sp':sp[sp.length-1]})
+  //  toast({
+  //        variant:"default",
+  //        description: `Sucess!`,
+  //       })
     // 成功后 调用后台接口
-    transferNft({cid:sp[sp.length-1]})
+    const response = await transferNft({cid:sp[sp.length-1]})
+    console.log({response})
+     toast({
+         variant:"default",
+         description: `Sucess!`,
+        })
   },
   onError: (err) => {
-    console.log({'error---------':cid})
+    console.log({'error---------':err})
+     toast({
+        variant: "destructive",
+          description: `${err.message}`,
+        })
     console.log(err.message);
   },
 })

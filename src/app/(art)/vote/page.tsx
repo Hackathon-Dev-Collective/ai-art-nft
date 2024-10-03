@@ -9,6 +9,8 @@ import { Heart, Share2, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -86,6 +88,7 @@ const initialImages = [
 
 export default function ImageCardList() {
   useUser();
+    const { toast } = useToast()
   const [images, setImages] = useState(initialImages);
   /** 点赞 赞后判断 likescount 满足条件 出发合约铸造NFT */
   const toggleFavorite = async ({id, likes}) => {
@@ -97,6 +100,10 @@ export default function ImageCardList() {
   
     const voteRes = await vote({cid:id})
      console.log({id,voteRes})
+       toast({
+         variant:"default",
+         description: `Vote sucess!`,
+        })
      getImages()
     // setImages(images.map((img) => (img.id === id ? { ...img, isFavorite: !img.isFavorite } : img)));
   };
@@ -117,7 +124,7 @@ export default function ImageCardList() {
   const getImages = async () => {
     const res = await getImageList();
     let imageArr: any[] = [];
-    res.data.images.filter((item) => item.is_uplinked).forEach((image: any) => {
+    res.data.images.filter((item) => !item.is_uplinked).forEach((image: any) => {
       imageArr.push({
         id: image.cid,
         src: `https://gateway.pinata.cloud/ipfs/${image.cid}`,
@@ -146,9 +153,19 @@ export default function ImageCardList() {
        },{
   onSuccess: async (data:any) => {
     console.log("Mint Success------------",data);
+       toast({
+         variant:"default",
+         description: `Sucess!`,
+        })
+    mintNft({cid, token_id:`scofield${Math.random()}`})
+    getImages();
   },
   onError: (err) => {
     console.log(err.message);
+     toast({
+        variant: "destructive",
+          description: `${err.message}`,
+        })
   },
 })
 

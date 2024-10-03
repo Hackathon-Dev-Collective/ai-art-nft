@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Image as ImageIcon, Download, Share2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast"
 
 import { post } from "@/utils/request";
 import useUser from "@/hooks/useUser";
@@ -29,6 +30,7 @@ import useUser from "@/hooks/useUser";
 export default function AIImageGeneration() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const { toast } = useToast()
   // const { isConnected } = useUser();
   useUser();
   // const [generatedImages, setGeneratedImages] = useState(sampleImages);
@@ -70,6 +72,10 @@ export default function AIImageGeneration() {
     try {
       const response = await post("/img/generator", params);
       console.log({ response });
+       toast({
+         variant:"default",
+         description: `Sucess!`,
+        })
       setGeneratedImage(
         Object.assign(generatedImage, {
           cid: response.data.cid,
@@ -81,6 +87,10 @@ export default function AIImageGeneration() {
       setPrompt("");
     } catch (error) {
       console.log({ error });
+       toast({
+        variant: "destructive",
+          description: `${error.message}`,
+        })
       setIsGenerating(false);
     }
   };
